@@ -1,26 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+/* Base text style */
+body {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
 /* Base header styles */
 .header {
-    background-color: #333;
-    padding: 1rem 2rem;
+    background-color: #046055;
+    padding: 0 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
-  
+
   .header-left {
     display: flex;
     align-items: center;
     gap: 2rem;
+    padding: 0;
   }
   
   /* Logo and navigation */
   .logo {
-    background-image: url('../../../cubbycoach.png');
+    background-image: url('../../../nextden_logo.png');
     background-size: contain;
     background-repeat: no-repeat;
     flex-shrink: 0;
-    width: 56px;
-    height: 46.313px;
+    width: 60px;
+    height: 60px;
+    padding: 0 !important;
+    margin: 0; 
+    display: block;
   }
   
   .nav-tabs {
@@ -45,6 +57,8 @@
   
   
   .nav-tab.active {
+    background-color: white;
+    color: #046055;
     background-color: #f4f9f4;
     color: #333;
     border-radius: 4px 4px 0 0;

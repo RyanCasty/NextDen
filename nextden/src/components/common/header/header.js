@@ -82,7 +82,7 @@ function Header() {
             to="/tinder"
             className={`nav-tab ${location.pathname === '/tinder' ? 'active' : ''}`}
           >
-            <h4>House Match</h4>
+            <h4>DenFinder</h4>
           </Link>
         </nav>
         <div className="bear-container">
