@@ -1,204 +1,204 @@
 /* financeCoach.css */
 .chat-container {
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #f0f0f0;
-    border-radius: 12px;
-    overflow: hidden;
-    height: calc(100vh - 140px);
-    display: flex;
-    flex-direction: column;
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  overflow: hidden;
+  height: calc(100vh - 140px);
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: white;
+}
+
+.coach-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 12px;
+}
+
+.coach-avatar, .coach-avatar-small {
+  background-size: 76%;
+  background-position: calc(50% + 0.5px) 6px;
+  background-image: var(--coach-image);
+  background-repeat: no-repeat;
+  border-radius: 50%;
+}
+
+.coach-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border: 2px solid #eee;
+}
+
+.coach-avatar-small {
+  width: 24px;
+  height: 24px;
+  background-color: #fff;
+  border: 2px solid #eee;
+  flex-shrink: 0;
+}
+
+.coach-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.coach-name {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.coach-status {
+  color: #43a047;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.coach-status::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--dot-color);
+  border-radius: 50%;
+}
+
+.chat-content {
+  padding: 20px;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.chat-title {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.chat-title h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.message {
+  display: flex;
+  gap: 12px;
+  max-width: 80%;
+}
+
+.user-message {
+  margin-left: auto;
+  flex-direction: row-reverse;
+}
+
+.assistant-message {
+  margin-right: auto;
+}
+
+.message-content {
+  background-color: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-message .message-content {
+  background-color: #237126;
+  color: white;
+}
+
+.message-content p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.chat-input {
+  padding: 16px;
+  background-color: #fff;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.input-field {
+  flex-grow: 1;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  resize: none;
+  max-height: 120px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.send-button {
+  background-color: #237126;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.send-button:hover:not(:disabled) {
+  background-color: #266829;
+}
+
+.send-button:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
   }
-  
-  .chat-header {
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #e0e0e0;
-    background-color: white;
+  to {
+    transform: rotate(360deg);
   }
-  
-  .coach-info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    gap: 12px;
-  }
-  
-  .coach-avatar, .coach-avatar-small {
-    background-size: 76%;
-    background-position: calc(50% + 0.5px) 6px;
-    background-image: var(--coach-image);
-    background-repeat: no-repeat;
-    border-radius: 50%;
-  }
-  
-  .coach-avatar {
-    width: 40px;
-    height: 40px;
-    background-color: #fff;
-    border: 2px solid #eee;
-  }
-  
-  .coach-avatar-small {
-    width: 24px;
-    height: 24px;
-    background-color: #fff;
-    border: 2px solid #eee;
-    flex-shrink: 0;
-  }
-  
-  .coach-details {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .coach-name {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-  }
-  
-  .coach-status {
-    color: #43a047;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  
-  .coach-status::before {
-    content: "";
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background-color: var(--dot-color);
-    border-radius: 50%;
-  }
-  
-  .chat-content {
-    padding: 20px;
-    flex-grow: 1;
-    overflow-y: auto;
-  }
-  
-  .chat-title {
-    text-align: center;
-    margin-bottom: 30px;
-  }
-  
-  .chat-title h1 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #333;
-    margin: 0;
-  }
-  
-  .messages {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .message {
-    display: flex;
-    gap: 12px;
-    max-width: 80%;
-  }
-  
-  .user-message {
-    margin-left: auto;
-    flex-direction: row-reverse;
-  }
-  
-  .assistant-message {
-    margin-right: auto;
-  }
-  
-  .message-content {
-    background-color: white;
-    padding: 12px 16px;
-    border-radius: 12px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .user-message .message-content {
-    background-color: #237126;
-    color: white;
-  }
-  
-  .message-content p {
-    margin: 0;
-    line-height: 1.5;
-  }
-  
-  .loading {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 40px;
-    min-height: 40px;
-  }
-  
-  .chat-input {
-    padding: 16px;
-    background-color: #fff;
-    border-top: 1px solid #e0e0e0;
-    display: flex;
-    gap: 12px;
-    align-items: flex-end;
-  }
-  
-  .input-field {
-    flex-grow: 1;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 12px;
-    resize: none;
-    max-height: 120px;
-    font-family: inherit;
-    font-size: 14px;
-    line-height: 1.5;
-  }
-  
-  .input-field:focus {
-    outline: none;
-    border-color: #4CAF50;
-  }
-  
-  .send-button {
-    background-color: #237126;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 12px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .send-button:hover:not(:disabled) {
-    background-color: #266829;
-  }
-  
-  .send-button:disabled {
-    background-color: #e0e0e0;
-    cursor: not-allowed;
-  }
-  
-  .animate-spin {
-    animation: spin 1s linear infinite;
-  }
-  
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+}
