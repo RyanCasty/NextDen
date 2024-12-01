@@ -1,32 +1,42 @@
 import OpenAI from "openai";
 import dotenv from "dotenv";
+import { response } from "express";
 
 dotenv.config();
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY, // Fetch API key from .env
+const configuration = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
 });
+
+const openai = new OpenAI(configuration);
 
 export const chatWithOpenAI = async (req, res) => {
     const { message } = req.body;
 
     try {
-        const completion = await openai.createChatCompletion({
-            model: "gpt-3.5-turbo",
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4",
             messages: [
-                { 
-                    role: "system", 
-                    content: "You are Chubby, a bear-themed assistant specialized in helping users with rent, subletting, and student housing. You provide concise, accurate, and friendly answers to their questions, making the process simple and stress-free." 
+                {
+                    role: "system",
+                    content: "You are a student housing assistant bear names cubby designed to help university students navigate the rental process, find roommates, and sublet their homes. You provide information on affordable housing options near campus, explain the specifics of student rental agreements, and offer tips on what to look for when renting. You also guide students in finding compatible roommates by offering advice on using roommate matching platforms, setting clear expectations, and ensuring a positive living arrangement. Additionally, you assist students with subletting their apartments or rooms, helping them understand how to create a sublease agreement, the legal aspects of subletting, and managing the process effectively. Your goal is to offer practical, affordable, and student-focused solutions for housing and roommate needs.",
                 },
-                { role: "user", content: message },
+                {
+                    role: "user",
+                    content: message,
+                },
             ],
-            max_tokens: 100,
-        });
-        
 
-        res.json({ response: completion.choices[0].message.content });
+        });
+        const replyContent = completion.choices?.[0]?.message?.content;
+        if (!replyContent) {
+            throw new Error("Invalid API response structure");
+        }
+
+        console.log(replyContent);
+        res.json({ response: replyContent });
     } catch (error) {
-        console.error("Error interacting with OpenAI API:", error);
+        console.error("Error interacting with OpenAI API:", error.message);
         res.status(500).send({ error: "Failed to fetch response from OpenAI" });
     }
 };

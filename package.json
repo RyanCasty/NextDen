@@ -2,13 +2,15 @@
     "name": "NextDen",
     "version": "1.0.0",
     "scripts": {
-      "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
-      "start:frontend": "npm start --prefix nextden",
-      "start:backend": "npm start --prefix backend"
+        "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+        "start:frontend": "npm start --prefix nextden",
+        "start:backend": "npm start --prefix backend"
     },
     "devDependencies": {
-      "concurrently": "^7.6.0",
-      "nodemon": "^2.0.22"
+        "concurrently": "^7.6.0",
+        "nodemon": "^2.0.22"
+    },
+    "dependencies": {
+        "openai": "^4.73.1"
     }
-  }
-  
+}

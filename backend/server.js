@@ -6,18 +6,20 @@ import chatbotRoutes from "./routes/chatbot.js";
 import connectDB from "./config/db.js";
 import listingRoutes from "./routes/listingRoutes.js";
 
-// Load environment variables
 dotenv.config();
 
 // Connect to MongoDB
 connectDB();
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 5001; // Hardcode to 5001
+
 
 // Middleware
-app.use(cors());
 app.use(bodyParser.json());
+
+app.use(cors());
+app.options('*', cors()); // Enable preflight across-the-board
 
 // Routes
 app.use("/chat", chatbotRoutes); // Chatbot routes
