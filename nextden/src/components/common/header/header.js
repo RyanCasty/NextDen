@@ -6,7 +6,6 @@ import "./header.css";
 
 
 function Header() {
-  // In Header.js
   const navigate = useNavigate(); // Add this import and hook
   const [isMainDropdownOpen, setIsMainDropdownOpen] = useState(false);
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
