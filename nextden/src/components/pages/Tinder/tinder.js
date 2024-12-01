@@ -85,6 +85,22 @@ function Tinder() {
 
   const currentHouse = houses[currentHouseIndex] || {};
 
+  const handleImageNavigation = (direction) => {
+    const currentHouse = houses[currentHouseIndex];
+    const allImages = [currentHouse.mainImage, ...currentHouse.thumbnails];
+    const currentImageIndex = allImages.indexOf(currentHouse.selectedImage);
+    
+    let newIndex;
+    if (direction === 'next') {
+      newIndex = (currentImageIndex + 1) % allImages.length;
+    } else {
+      newIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
+    }
+    
+    const updatedHouses = [...houses];
+    updatedHouses[currentHouseIndex].selectedImage = allImages[newIndex];
+    setHouses(updatedHouses);
+  };
   
 
   return (
@@ -109,16 +125,22 @@ function Tinder() {
         </div>
 
         <div className="swipe-container">
-          <button onClick={handleSkip} className="reject-button">❌</button>
+          <button onClick={handleSkip} className="reject-button">✖️</button>
 
           <div className="house-card">
-            <div className="main-image-container">
-              <img src={currentHouse.selectedImage || currentHouse.mainImage} alt="House" />
-              <div className="image-overlay">
-                <div className="address">{currentHouse.address}</div>
-                <div className="price">{currentHouse.price !== "N/A" ? `$${currentHouse.price}` : "Price not available"}</div>
-              </div>
+          <div className="main-image-container">
+            <button className="image-nav-button left-arrow" onClick={() => handleImageNavigation('prev')}>
+              ←
+            </button>
+            <img src={currentHouse.selectedImage || currentHouse.mainImage} alt="House" />
+            <button className="image-nav-button right-arrow" onClick={() => handleImageNavigation('next')}>
+              →
+            </button>
+            <div className="image-overlay">
+              <div className="address">{currentHouse.address}</div>
+              <div className="price">{currentHouse.price !== "N/A" ? `$${currentHouse.price}` : "Price not available"}</div>
             </div>
+          </div>
 
             <div className="thumbnails-container">
               <div className="thumbnails">
