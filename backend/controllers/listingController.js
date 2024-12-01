@@ -1,26 +1,41 @@
-import Listing from "../models/listing.js";
+import mongoose from "mongoose";
 
-// Fetch all listings
-export const getAllListings = async (req, res) => {
-    try {
-        const listings = await Listing.find();
-        res.status(200).json(listings);
-    } catch (error) {
-        console.error("Error fetching listings:", error);
-        res.status(500).json({ error: "Failed to fetch listings" });
+// Fetch housing data
+export const fetchHousingData = async (req, res) => {
+    const uri = process.env.MONGO_URI;
+
+    if (!uri) {
+        console.error("Failed to connect to the database: MONGO_URI is not set.");
+        return res.status(500).json({ error: "Database connection issue" });
     }
-};
 
-export const getListingByUUID = async (req, res) => {
-    const { uuid } = req.params;
     try {
-        const listing = await Listing.findOne({ UUID: uuid });
-        if (!listing) {
-            return res.status(404).json({ error: "Listing not found" });
+        // Connect to MongoDB
+        const client = await mongoose.connect(uri, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log("Connected to MongoDB");
+
+        const db = mongoose.connection.db; // Get the raw database instance
+        const collection = db.collection("Housing Data");
+
+        // Fetch data from the collection
+        const data = await collection.find({}, { projection: { _id: 0 } }).toArray();
+
+        if (data.length === 0) {
+            console.warn("No data retrieved from the database");
+            return res.status(200).json([]);
         }
-        res.status(200).json(listing);
+
+        // Return data
+        return res.status(200).json(data);
     } catch (error) {
-        console.error("Error fetching listing by UUID:", error);
-        res.status(500).json({ error: "Failed to fetch listing" });
+        console.error("Error fetching data:", error.message);
+        return res.status(500).json({ error: "Failed to fetch data from the database" });
+    } finally {
+        // Close the connection
+        await mongoose.disconnect();
+        console.log("Disconnected from MongoDB");
     }
 };

@@ -1,69 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './tinder.css';
 
-const houses = [
-    {
-      id: 1,
-      address: "14 Elyssa drive",
-      price: "$800/bdrm",
-      bedrooms: 3,
-      bathrooms: 2.5,
-      utilities: "Extra",
-      location: "Old North",
-      distance: "2.4 km",
-      dateAvailable: "January 1, 2025",
-      leaseTerm: "12 months",
-      housingType: "House to Share",
-      mainImage: "/api/placeholder/800/400",
-      thumbnails: [
-        "../../../../temp_house.jpg",
-        "../../../../temp_house.jpg",
-        "../../../../temp_house.jpg"
-      ],
-    },
-    {
-      id: 2,
-      address: "759 Whetherfield St",
-      price: "$2100/bdrm",
-      bedrooms: 4,
-      bathrooms: 2,
-      utilities: "Extra",
-      location: "Old South",
-      distance: "9.8 km",
-      dateAvailable: "January 1, 2025",
-      leaseTerm: "12 months",
-      housingType: "House to Share",
-      mainImage: "/api/placeholder/800/400",
-      thumbnails: [
-        "../../../../temp_house.jpg",
-        "../../../../temp_house.jpg",
-        "../../../../temp_house.jpg"
-      ]
-    }, 
-    {
-      id: 3,
-      address: "22 Oxford Ave",
-      price: "$975/bdrm",
-      bedrooms: 3,
-      bathrooms: 2,
-      utilities: "Extra",
-      location: "Downtown",
-      distance: "1.2 km",
-      dateAvailable: "January 1, 2025",
-      leaseTerm: "12 months",
-      housingType: "House to Share",
-      mainImage: "/api/placeholder/800/400",
-      thumbnails: [
-        "../../../../temp_house.jpg",
-        "../../../../temp_house.jpg",
-        "../../../../temp_house.jpg"
-      ]
-    }
-];
-
 function Tinder() {
+  const [houses, setHouses] = useState([]);
   const [currentHouseIndex, setCurrentHouseIndex] = useState(0);
   const [savedListings, setSavedListings] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch houses from the backend
+  useEffect(() => {
+    const fetchHouses = async () => {
+      try {
+        const response = await fetch('http://localhost:5001/api/listings');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log("Fetched houses:", data); // Log the fetched data
+        setHouses(data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching listings:", error);
+        setLoading(false);
+      }
+    };
+  
+    fetchHouses();
+  }, []);
+  
 
   const handleSave = () => {
     setSavedListings([...savedListings, houses[currentHouseIndex]]);
@@ -79,6 +43,14 @@ function Tinder() {
       prevIndex + 1 < houses.length ? prevIndex + 1 : 0
     );
   };
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (houses.length === 0) {
+    return <div className="no-houses">No houses available</div>;
+  }
 
   return (
     <div className="app">
@@ -162,7 +134,7 @@ function Tinder() {
           <h2>Your saved listings</h2>
           <div className="listings-grid">
             {savedListings.map((listing) => (
-              <div key={listing.id} className="listing-card">
+              <div key={listing._id} className="listing-card">
                 <img src={listing.mainImage} alt={listing.address} />
                 <div className="listing-info">
                   <div className="listing-price">{listing.price}</div>
