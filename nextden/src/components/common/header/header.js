@@ -18,10 +18,10 @@ function Header() {
     location: ''
   });
 
-  const housingTypes = ['Apartment', 'House', 'Sublets'];
-  const bedroomOptions = ['Studio', '1', '2', '3', '4+'];
-  const utilityOptions = ['A/C', 'Private Bedroom', 'Laundry', 'Parking', 'Internet Incl'];
-  const locationOptions = ['Downtown', 'Old North', 'Near South', 'Near West', 'Masonville', 'North London'];
+   const housingTypes = ['  Apartment', '  House', '  Sublets'];
+  const bedroomOptions = ['  Studio', '  1', '  2', '  3', '  4+'];
+  const utilityOptions = ['  A/C', '  Private Bedroom', '  Laundry', '  Parking', '  Internet Incl'];
+  const locationOptions = ['  Downtown', '  Old North', '  Near South', 'Near West', '  Masonville', '  North London'];
 
   const toggleMainDropdown = (e) => {
     e.stopPropagation();
@@ -58,19 +58,20 @@ function Header() {
             to="/dashboard"
             className={`nav-tab ${location.pathname === '/dashboard' ? 'active' : ''}`}
           >
-            Dashboard
+            <h4>Dashboard</h4>
           </Link>
           <Link
             to="/financeCoach"
             className={`nav-tab ${location.pathname === '/financeCoach' ? 'active' : ''}`}
           >
-            Cubby Coach
-          </Link>
+            <h4>Cubby Coach</h4>
+            </Link>
           <Link
             to="/tinder"
             className={`nav-tab ${location.pathname === '/tinder' ? 'active' : ''}`}
           >
             DenFinder
+            <h4>House Match</h4>
           </Link>
         </nav>
         <div className="bear-container">
