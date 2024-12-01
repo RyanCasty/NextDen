@@ -4,8 +4,12 @@ import './tinder.css';
 function Tinder() {
   const [houses, setHouses] = useState([]);
   const [currentHouseIndex, setCurrentHouseIndex] = useState(0);
-  const [savedListings, setSavedListings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [savedListings, setSavedListings] = useState(() => {
+    const saved = localStorage.getItem("savedListings");
+    return saved ? JSON.parse(saved) : []; // Retrieve from localStorage or initialize as an empty array
+  });
+  const [bedroomFilter, setBedroomFilter] = useState(null); // New filter state
 
   useEffect(() => {
     const fetchHouses = async () => {
@@ -19,9 +23,10 @@ function Tinder() {
         // Transform the data to match the expected structure
         const transformedData = data.map((house) => ({
           mainImage: house.Images[0],
+          selectedImage: house.Images[0], // Add selectedImage property
           thumbnails: house.Images.slice(1),
           address: house.Details?.Location || "N/A",
-          price: house.Details?.Price || "N/A",
+          price: house.Price || "N/A",
           bedrooms: house.Details?.["Bedroom(s)"] || "N/A",
           bathrooms: house.Details?.Bathrooms || "N/A",
           housingType: house.Details?.["Housing Type"] || "N/A",
@@ -43,6 +48,11 @@ function Tinder() {
     fetchHouses();
   }, []);
 
+  useEffect(() => {
+    // Save the savedListings to localStorage whenever it changes
+    localStorage.setItem("savedListings", JSON.stringify(savedListings));
+  }, [savedListings]);
+
   const handleSave = () => {
     setSavedListings([...savedListings, houses[currentHouseIndex]]);
     nextHouse();
@@ -58,6 +68,13 @@ function Tinder() {
     );
   };
 
+  const handleThumbnailClick = (image) => {
+    // Update the selectedImage for the current house
+    const updatedHouses = [...houses];
+    updatedHouses[currentHouseIndex].selectedImage = image;
+    setHouses(updatedHouses);
+  };
+
   if (loading) {
     return <div className="loading">Loading...</div>;
   }
@@ -67,6 +84,8 @@ function Tinder() {
   }
 
   const currentHouse = houses[currentHouseIndex] || {};
+
+  
 
   return (
     <div className="app">
@@ -94,17 +113,17 @@ function Tinder() {
 
           <div className="house-card">
             <div className="main-image-container">
-              <img src={currentHouse.mainImage} alt="House" />
+              <img src={currentHouse.selectedImage || currentHouse.mainImage} alt="House" />
               <div className="image-overlay">
                 <div className="address">{currentHouse.address}</div>
-                <div className="price">{currentHouse.price}</div>
+                <div className="price">{currentHouse.price !== "N/A" ? `$${currentHouse.price}` : "Price not available"}</div>
               </div>
             </div>
 
             <div className="thumbnails-container">
               <div className="thumbnails">
                 {currentHouse.thumbnails?.map((thumb, index) => (
-                  <div key={index} className="thumbnail">
+                  <div key={index} className="thumbnail" onClick={() => handleThumbnailClick(thumb)}>
                     <img src={thumb} alt={`Thumbnail ${index + 1}`} />
                   </div>
                 ))}
