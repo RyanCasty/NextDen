@@ -1,23 +1,23 @@
-const express = require("express");
-const dotenv = require("dotenv");
-const cors = require("cors");
-const connectDB = require("./config/db");
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
 
-// Load environment variables
+import chatbotRoutes from "./routes/chatbot.js";
+
 dotenv.config();
 
-// Connect to MongoDB
-connectDB();
-
 const app = express();
+const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(express.json()); // Parse JSON requests
 app.use(cors());
+app.use(bodyParser.json());
 
 // Routes
-app.use("/api", require("./routes/api"));
+app.use("/api", chatbotRoutes);
 
 // Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
