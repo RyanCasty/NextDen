@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Home, Bed, Zap, MapPin, ChevronDown, ChevronUp } from "lucide-react";
 import "./header.css";
 
+
 function Header() {
+  // In Header.js
+  const navigate = useNavigate(); // Add this import and hook
   const [isMainDropdownOpen, setIsMainDropdownOpen] = useState(false);
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
   const location = useLocation();
@@ -17,6 +20,21 @@ function Header() {
     utilities: [],
     location: ''
   });
+
+  // When selections change, update the URL
+  useEffect(() => {
+    const queryParams = new URLSearchParams();
+    
+    if (selections.bedrooms) queryParams.set('bedrooms', selections.bedrooms);
+    if (selections.location) queryParams.set('location', selections.location);
+    if (selections.housingType) queryParams.set('housingType', selections.housingType);
+    if (selections.utilities.length) queryParams.set('utilities', selections.utilities.join(','));
+    
+    navigate({
+      pathname: location.pathname,
+      search: queryParams.toString()
+    }, { replace: true });
+  }, [selections, navigate, location.pathname]);
 
   const housingTypes = ['  Apartment', '  House', '  Sublets'];
   const bedroomOptions = ['  Studio', '  1', '  2', '  3', '  4+'];
@@ -82,7 +100,7 @@ function Header() {
             to="/tinder"
             className={`nav-tab ${location.pathname === '/tinder' ? 'active' : ''}`}
           >
-            <h4>DenFinder</h4>
+            <h4>Den Finder</h4>
           </Link>
         </nav>
         <div className="bear-container">

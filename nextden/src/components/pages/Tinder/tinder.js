@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import './tinder.css';
+import { useSelections } from '../../common/SelectionsContext';
 
 function Tinder() {
+  const [searchParams] = useSearchParams();
+  const bedrooms = searchParams.get('bedrooms') || '';
+  const location = searchParams.get('location') || '';
+  const housingType = searchParams.get('housingType') || '';
+  const utilities = searchParams.get('utilities')?.split(',').filter(Boolean) || [];
+  const { selections, setSelections } = useSelections();
   const [houses, setHouses] = useState([]);
   const [currentHouseIndex, setCurrentHouseIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -107,19 +115,21 @@ function Tinder() {
     <div className="app">
       <div className="content">
         <div className="search-section">
-          <h1>Swipe through the houses</h1>
-          <button className="preferences-button">Edit my preferences</button>
+          <h1>Swipe to find your next den 🏘️</h1>
 
           <div className="search-criteria">
             <span>Looking for:</span>
             <div className="criteria-item">
-              <span>🏠</span> 3 bedrooms
+              <span>🏠</span> {housingType}
             </div>
             <div className="criteria-item">
-              <span>👣</span> 0 - 3km from UWO
+              <span>🛏️</span> {bedrooms} {bedrooms === '1' ? 'bedroom' : 'bedrooms'}
             </div>
             <div className="criteria-item">
-              <span>📍</span> Old North, Old South, Masonville, Downtown, Etc.
+              <span>💡</span> {utilities.map(util => util).join(', ')}
+            </div>
+            <div className="criteria-item">
+              <span>📍</span> {location} 
             </div>
           </div>
         </div>
@@ -194,7 +204,7 @@ function Tinder() {
               <div key={index} className="listing-card">
                 <img src={listing.mainImage} alt={listing.address} />
                 <div className="listing-info">
-                  <div className="listing-price">{listing.price}</div>
+                  <div className="listing-price">{`$${listing.price}`}</div>
                   <div className="listing-address">{listing.address}</div>
                   <div className="listing-location">
                     <span>📍 {listing.location}</span>
