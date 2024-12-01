@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../styles/tinder.css'; 
+import './tinder.css'; 
 
 const houses = [
     {

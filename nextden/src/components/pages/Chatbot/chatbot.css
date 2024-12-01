@@ -1,0 +1,105 @@
+/* financeCoach.css */
+.chat-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f0f0f0;
+    border-radius: 12px;
+    overflow: hidden;
+    height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .chat-header {
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: white;
+  }
+  
+  .coach-info {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Centers the entire coach info section */
+  
+    width: 100%;
+    gap: 12px;
+  }
+  
+  .coach-avatar, .coach-avatar-small {
+    background-size: 76%;
+    background-position: calc(50% + 0.5px) 6px;
+    background-image: var(--coach-image);
+    background-repeat: no-repeat;
+    border-radius: 50%;
+  }
+  
+  .coach-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #fff;
+    border: 2px solid #eee;
+  }
+  
+  .coach-avatar-small {
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    border: 2px solid #eee;
+    flex-shrink: 0;
+  }
+  
+  .coach-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .coach-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .coach-status {
+    color: #43a047;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .coach-status::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px; 
+    background-color: var(--dot-color);
+    border-radius: 50%;
+  }
+  
+  .chat-content {
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  
+  .chat-title {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .chat-title h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+  
+  .message-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
