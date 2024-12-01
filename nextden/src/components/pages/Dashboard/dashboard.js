@@ -5,7 +5,7 @@ const Dashboard = () => {
     return (
         <div className="streamlit-container">
           <iframe
-            src="https://nextden.streamlit.app?embedded=true"  // Replace with your actual Streamlit app URL
+            src="https://nextden.streamlit.app?embedded=true"  
             className="streamlit-iframe"
             title="Streamlit Data Visualizations"
           />
