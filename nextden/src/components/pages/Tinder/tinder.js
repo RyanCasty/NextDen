@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import './tinder.css'; 
+import './tinder.css';
 
 const houses = [
     {
       id: 1,
-      address: "14 Elyssa Drive",
-      price: "$800 / bdrm",
+      address: "14 Elyssa drive",
+      price: "$800/bdrm",
       bedrooms: 3,
       bathrooms: 2.5,
       utilities: "Extra",
@@ -13,86 +13,176 @@ const houses = [
       distance: "2.4 km",
       dateAvailable: "January 1, 2025",
       leaseTerm: "12 months",
-      images: [
-        "https://via.placeholder.com/150", // Replace with real images
-        "https://via.placeholder.com/150",
+      housingType: "House to Share",
+      mainImage: "/api/placeholder/800/400",
+      thumbnails: [
+        "../../../../temp_house.jpg",
+        "../../../../temp_house.jpg",
+        "../../../../temp_house.jpg"
       ],
     },
     {
       id: 2,
       address: "759 Whetherfield St",
-      price: "$2100 / bdrm",
+      price: "$2100/bdrm",
       bedrooms: 4,
-      bathrooms: 3,
-      utilities: "Included",
+      bathrooms: 2,
+      utilities: "Extra",
       location: "Old South",
       distance: "9.8 km",
       dateAvailable: "January 1, 2025",
       leaseTerm: "12 months",
-      images: [
-        "https://via.placeholder.com/150", // Replace with real images
-      ],
-    },
-  ];
-  
-  function Tinder() {
-    const [currentHouseIndex, setCurrentHouseIndex] = useState(0);
-    const [savedListings, setSavedListings] = useState([]);
-  
-    const handleSave = () => {
-      setSavedListings([...savedListings, houses[currentHouseIndex]]);
-      nextHouse();
-    };
-  
-    const handleSkip = () => {
-      nextHouse();
-    };
-  
-    const nextHouse = () => {
-      setCurrentHouseIndex((prevIndex) =>
-        prevIndex + 1 < houses.length ? prevIndex + 1 : 0
-      );
-    };
-  
-    return (
-      <div className="app">
-        <header className="header">
-          <h1>start swiping :)</h1>
-        </header>
-        <main>
-          <div className="house-card">
-            <img src={houses[currentHouseIndex].images[0]} alt="House" />
-            <div className="house-info">
-              <h2>{houses[currentHouseIndex].address}</h2>
-              <p>{houses[currentHouseIndex].price}</p>
-              <p>{houses[currentHouseIndex].bedrooms} bedrooms</p>
-              <p>{houses[currentHouseIndex].bathrooms} bathrooms</p>
-              <p>Location: {houses[currentHouseIndex].location}</p>
+      housingType: "House to Share",
+      mainImage: "/api/placeholder/800/400",
+      thumbnails: [
+        "../../../../temp_house.jpg",
+        "../../../../temp_house.jpg",
+        "../../../../temp_house.jpg"
+      ]
+    }, 
+    {
+      id: 3,
+      address: "22 Oxford Ave",
+      price: "$975/bdrm",
+      bedrooms: 3,
+      bathrooms: 2,
+      utilities: "Extra",
+      location: "Downtown",
+      distance: "1.2 km",
+      dateAvailable: "January 1, 2025",
+      leaseTerm: "12 months",
+      housingType: "House to Share",
+      mainImage: "/api/placeholder/800/400",
+      thumbnails: [
+        "../../../../temp_house.jpg",
+        "../../../../temp_house.jpg",
+        "../../../../temp_house.jpg"
+      ]
+    }
+];
+
+function Tinder() {
+  const [currentHouseIndex, setCurrentHouseIndex] = useState(0);
+  const [savedListings, setSavedListings] = useState([]);
+
+  const handleSave = () => {
+    setSavedListings([...savedListings, houses[currentHouseIndex]]);
+    nextHouse();
+  };
+
+  const handleSkip = () => {
+    nextHouse();
+  };
+
+  const nextHouse = () => {
+    setCurrentHouseIndex((prevIndex) =>
+      prevIndex + 1 < houses.length ? prevIndex + 1 : 0
+    );
+  };
+
+  return (
+    <div className="app">
+      <div className="content">
+        <div className="search-section">
+          <h1>Swipe through the houses</h1>
+          <button className="preferences-button">Edit my preferences</button>
+          
+          <div className="search-criteria">
+            <span>Looking for:</span>
+            <div className="criteria-item">
+              <span>🏠</span> 3 bedrooms
             </div>
-            <div className="actions">
-              <button onClick={handleSkip} className="skip">
-                ❌ 
-              </button>
-              <button onClick={handleSave} className="save">
-                ✅ 
-              </button>
+            <div className="criteria-item">
+              <span>👣</span> 0 - 3km from UWO
+            </div>
+            <div className="criteria-item">
+              <span>📍</span> Old North, Old South, Masonville, Downtown, Etc.
             </div>
           </div>
-          <section className="saved-listings">
-            <h2>Your saved listings</h2>
-            <div className="listings">
-              {savedListings.map((house) => (
-                <div key={house.id} className="listing-card">
-                  <img src={house.images[0]} alt="House" />
-                  <h3>{house.address}</h3>
-                  <p>{house.price}</p>
-                </div>
-              ))}
+        </div>
+
+        <div className="swipe-container">
+          <button onClick={handleSkip} className="reject-button">❌</button>
+          
+          <div className="house-card">
+            <div className="main-image-container">
+              <img src={houses[currentHouseIndex].mainImage} alt="House" />
+              <div className="image-overlay">
+                <div className="address">{houses[currentHouseIndex].address}</div>
+                <div className="price">{houses[currentHouseIndex].price}</div>
+              </div>
             </div>
-          </section>
-        </main>
+
+            <div className="thumbnails-container">
+              <div className="thumbnails">
+                {houses[currentHouseIndex].thumbnails.map((thumb, index) => (
+                  <div key={index} className="thumbnail">
+                    <img src={thumb} alt={`Thumbnail ${index + 1}`} />
+                  </div>
+                ))}
+              </div>
+              <div className="house-stats">
+                <span>🏠 {houses[currentHouseIndex].bedrooms} bedrooms</span>
+                <span>🚿 {houses[currentHouseIndex].bathrooms} bathrooms</span>
+              </div>
+            </div>
+
+            <div className="details-grid">
+              <div className="detail-item">
+                <div className="label">Housing Type</div>
+                <div className="value">🏠 {houses[currentHouseIndex].housingType}</div>
+              </div>
+              <div className="detail-item">
+                <div className="label">Utilities</div>
+                <div className="value">{houses[currentHouseIndex].utilities}</div>
+              </div>
+              <div className="detail-item">
+                <div className="label">Location</div>
+                <div className="value">📍 {houses[currentHouseIndex].location}</div>
+              </div>
+              <div className="detail-item">
+                <div className="label">Date Available</div>
+                <div className="value">📅 {houses[currentHouseIndex].dateAvailable}</div>
+              </div>
+              <div className="detail-item">
+                <div className="label">Lease Term</div>
+                <div className="value">{houses[currentHouseIndex].leaseTerm}</div>
+              </div>
+              <div className="detail-item">
+                <div className="label">Distance from UWO</div>
+                <div className="value">👣 {houses[currentHouseIndex].distance}</div>
+              </div>
+            </div>
+          </div>
+
+          <button onClick={handleSave} className="accept-button">✅</button>
+        </div>
+
+        <div className="saved-listings">
+          <h2>Your saved listings</h2>
+          <div className="listings-grid">
+            {savedListings.map((listing) => (
+              <div key={listing.id} className="listing-card">
+                <img src={listing.mainImage} alt={listing.address} />
+                <div className="listing-info">
+                  <div className="listing-price">{listing.price}</div>
+                  <div className="listing-address">{listing.address}</div>
+                  <div className="listing-location">
+                    <span>📍 {listing.location}</span>
+                    <span>👣 {listing.distance}</span>
+                  </div>
+                  <div className="listing-stats">
+                    <span>🏠 {listing.bedrooms}</span>
+                    <span>🚿 {listing.bathrooms}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
 export default Tinder;
