@@ -1,41 +1,35 @@
-import mongoose from "mongoose";
+import listings from "../data/listings.js";
 
-// Fetch housing data
-export const fetchHousingData = async (req, res) => {
-    const uri = process.env.MONGO_URI;
-
-    if (!uri) {
-        console.error("Failed to connect to the database: MONGO_URI is not set.");
-        return res.status(500).json({ error: "Database connection issue" });
-    }
-
+// Fetch all hardcoded listings
+export const getAllListings = (req, res) => {
     try {
-        // Connect to MongoDB
-        const client = await mongoose.connect(uri, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        console.log("Connected to MongoDB");
-
-        const db = mongoose.connection.db; // Get the raw database instance
-        const collection = db.collection("Housing Data");
-
-        // Fetch data from the collection
-        const data = await collection.find({}, { projection: { _id: 0 } }).toArray();
-
-        if (data.length === 0) {
-            console.warn("No data retrieved from the database");
-            return res.status(200).json([]);
+        if (!listings.length) {
+            console.warn("No hardcoded listings available");
+            return res.status(404).json({ message: "No listings found" });
         }
 
-        // Return data
-        return res.status(200).json(data);
+        return res.status(200).json(listings);
     } catch (error) {
-        console.error("Error fetching data:", error.message);
-        return res.status(500).json({ error: "Failed to fetch data from the database" });
-    } finally {
-        // Close the connection
-        await mongoose.disconnect();
-        console.log("Disconnected from MongoDB");
+        console.error("Error fetching hardcoded listings:", error);
+        return res.status(500).json({ error: "Failed to fetch listings" });
+    }
+};
+
+// Fetch a single listing by UUID
+export const getListingByUUID = (req, res) => {
+    const { uuid } = req.params;
+
+    try {
+        const listing = listings.find((item) => item.UUID === uuid);
+
+        if (!listing) {
+            console.warn(`No hardcoded listing found with UUID: ${uuid}`);
+            return res.status(404).json({ message: "Listing not found" });
+        }
+
+        return res.status(200).json(listing);
+    } catch (error) {
+        console.error(`Error fetching hardcoded listing by UUID (${uuid}):`, error);
+        return res.status(500).json({ error: "Failed to fetch listing" });
     }
 };

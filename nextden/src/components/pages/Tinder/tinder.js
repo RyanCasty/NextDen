@@ -7,7 +7,6 @@ function Tinder() {
   const [savedListings, setSavedListings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch houses from the backend
   useEffect(() => {
     const fetchHouses = async () => {
       try {
@@ -16,18 +15,33 @@ function Tinder() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        console.log("Fetched houses:", data); // Log the fetched data
-        setHouses(data);
+
+        // Transform the data to match the expected structure
+        const transformedData = data.map((house) => ({
+          mainImage: house.Images[0],
+          thumbnails: house.Images.slice(1),
+          address: house.Details?.Location || "N/A",
+          price: house.Details?.Price || "N/A",
+          bedrooms: house.Details?.["Bedroom(s)"] || "N/A",
+          bathrooms: house.Details?.Bathrooms || "N/A",
+          housingType: house.Details?.["Housing Type"] || "N/A",
+          utilities: house.Details?.Utilities || "N/A",
+          location: house.Details?.Location || "N/A",
+          dateAvailable: house.Details?.["Date Available"] || "N/A",
+          leaseTerm: house.Details?.["Lease Term"] || "N/A",
+          distance: house.Details?.Distance || "N/A",
+        }));
+
+        setHouses(transformedData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching listings:", error);
         setLoading(false);
       }
     };
-  
+
     fetchHouses();
   }, []);
-  
 
   const handleSave = () => {
     setSavedListings([...savedListings, houses[currentHouseIndex]]);
@@ -52,13 +66,15 @@ function Tinder() {
     return <div className="no-houses">No houses available</div>;
   }
 
+  const currentHouse = houses[currentHouseIndex] || {};
+
   return (
     <div className="app">
       <div className="content">
         <div className="search-section">
           <h1>Swipe through the houses</h1>
           <button className="preferences-button">Edit my preferences</button>
-          
+
           <div className="search-criteria">
             <span>Looking for:</span>
             <div className="criteria-item">
@@ -75,54 +91,54 @@ function Tinder() {
 
         <div className="swipe-container">
           <button onClick={handleSkip} className="reject-button">❌</button>
-          
+
           <div className="house-card">
             <div className="main-image-container">
-              <img src={houses[currentHouseIndex].mainImage} alt="House" />
+              <img src={currentHouse.mainImage} alt="House" />
               <div className="image-overlay">
-                <div className="address">{houses[currentHouseIndex].address}</div>
-                <div className="price">{houses[currentHouseIndex].price}</div>
+                <div className="address">{currentHouse.address}</div>
+                <div className="price">{currentHouse.price}</div>
               </div>
             </div>
 
             <div className="thumbnails-container">
               <div className="thumbnails">
-                {houses[currentHouseIndex].thumbnails.map((thumb, index) => (
+                {currentHouse.thumbnails?.map((thumb, index) => (
                   <div key={index} className="thumbnail">
                     <img src={thumb} alt={`Thumbnail ${index + 1}`} />
                   </div>
                 ))}
               </div>
               <div className="house-stats">
-                <span>🏠 {houses[currentHouseIndex].bedrooms} bedrooms</span>
-                <span>🚿 {houses[currentHouseIndex].bathrooms} bathrooms</span>
+                <span>🏠 {currentHouse.bedrooms} bedrooms</span>
+                <span>🚿 {currentHouse.bathrooms} bathrooms</span>
               </div>
             </div>
 
             <div className="details-grid">
               <div className="detail-item">
                 <div className="label">Housing Type</div>
-                <div className="value">🏠 {houses[currentHouseIndex].housingType}</div>
+                <div className="value">🏠 {currentHouse.housingType}</div>
               </div>
               <div className="detail-item">
                 <div className="label">Utilities</div>
-                <div className="value">{houses[currentHouseIndex].utilities}</div>
+                <div className="value">{currentHouse.utilities}</div>
               </div>
               <div className="detail-item">
                 <div className="label">Location</div>
-                <div className="value">📍 {houses[currentHouseIndex].location}</div>
+                <div className="value">📍 {currentHouse.location}</div>
               </div>
               <div className="detail-item">
                 <div className="label">Date Available</div>
-                <div className="value">📅 {houses[currentHouseIndex].dateAvailable}</div>
+                <div className="value">📅 {currentHouse.dateAvailable}</div>
               </div>
               <div className="detail-item">
                 <div className="label">Lease Term</div>
-                <div className="value">{houses[currentHouseIndex].leaseTerm}</div>
+                <div className="value">{currentHouse.leaseTerm}</div>
               </div>
               <div className="detail-item">
                 <div className="label">Distance from UWO</div>
-                <div className="value">👣 {houses[currentHouseIndex].distance}</div>
+                <div className="value">👣 {currentHouse.distance}</div>
               </div>
             </div>
           </div>
@@ -133,8 +149,8 @@ function Tinder() {
         <div className="saved-listings">
           <h2>Your saved listings</h2>
           <div className="listings-grid">
-            {savedListings.map((listing) => (
-              <div key={listing._id} className="listing-card">
+            {savedListings.map((listing, index) => (
+              <div key={index} className="listing-card">
                 <img src={listing.mainImage} alt={listing.address} />
                 <div className="listing-info">
                   <div className="listing-price">{listing.price}</div>

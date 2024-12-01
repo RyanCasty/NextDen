@@ -1,9 +1,12 @@
 import express from "express";
-import { fetchHousingData } from "../controllers/listingController.js";
+import { getAllListings, getListingByUUID } from "../controllers/listingController.js";
 
 const router = express.Router();
 
-// Route to fetch all listings
-router.get("/listings", fetchHousingData);
+// Route to fetch all hardcoded listings
+router.get("/listings", getAllListings);
+
+// Route to fetch a single hardcoded listing by UUID
+router.get("/listings/:uuid", getListingByUUID);
 
 export default router;
