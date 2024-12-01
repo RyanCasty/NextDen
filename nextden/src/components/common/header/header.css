@@ -15,10 +15,12 @@
   
   /* Logo and navigation */
   .logo {
-    color: #4CAF50;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-decoration: none;
+    background-image: url('../../../cubbycoach.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+    width: 56px;
+    height: 46.313px;
   }
   
   .nav-tabs {
@@ -154,3 +156,40 @@
       transform: translateY(0);
     }
   }
+
+  /* Add this to your Header.css */
+  @keyframes walkBackAndForth {
+    0% {
+      transform: translateX(-40px) scaleX(1);
+    }
+    45% {
+      transform: translateX(600px) scaleX(1);
+    }
+    50% {
+      transform: translateX(600px) scaleX(-1);
+    }
+    95% {
+      transform: translateX(-40px) scaleX(-1);
+    }
+    100% {
+      transform: translateX(-40px) scaleX(1);
+    }
+  }
+
+.bear-container {
+  height: 60px; /* Adjust based on your bear image size */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+  width: 600px
+}
+
+.walking-bear {
+  width: 60px; /* Adjust based on your bear image size */
+  height: 60px;
+  background-image: url('../../../bear2.gif');
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: walkBackAndForth 30s linear infinite;
+}

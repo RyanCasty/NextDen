@@ -52,7 +52,7 @@ function Header() {
   return (
     <header className="header">
       <div className="header-left">
-        <Link to="/" className="logo">sk.</Link>
+        <Link to="/" className="logo"></Link>
         <nav className="nav-tabs">
           <Link
             to="/dashboard"
@@ -73,6 +73,9 @@ function Header() {
             House Match
           </Link>
         </nav>
+        <div className="bear-container">
+        <div className="walking-bear" />
+      </div>
       </div>
       <div className="preferences-dropdown relative">
         <div className="profile-icon" onClick={toggleMainDropdown}>
